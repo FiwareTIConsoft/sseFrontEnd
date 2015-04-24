@@ -1,5 +1,7 @@
 package com.tilab.ca.ssefrontend;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -39,6 +41,12 @@ public class SSEFrontendMainGrizzlyRunner {
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\n", BASE_URI));
         
+		Guice.createInjector( new AbstractModule() {
+			protected void configure() {
+				
+			}
+		});
+		
 		Thread.currentThread().suspend(); //XXX verify the best option to suspend the current thread
 		
         server.stop();

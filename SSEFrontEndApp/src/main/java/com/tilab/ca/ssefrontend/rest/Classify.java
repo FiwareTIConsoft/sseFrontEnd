@@ -1,5 +1,6 @@
 package com.tilab.ca.ssefrontend.rest;
 
+import com.tilab.ca.ssefrontend.ClassifyService;
 import java.io.File;
 import static java.lang.String.valueOf;
 import java.util.Optional;
@@ -35,7 +36,14 @@ public class Classify {
 			@FormDataParam("numTopics") int numTopics,
 			@FormDataParam("lang") String lang,
 			@QueryParam("image_policy") @DefaultValue("BASIC") String imagePolicy ) {
-		ofNullable(url).map(null) //TODO call SSEPreProcessor
+		
+		
+		return ClassifyService.classify( 
+				ofNullable(url),
+				ofNullable(inputText),
+				ofNullable(imagePolicy)
+		);
+				
     }
 	
 	/**
@@ -44,19 +52,11 @@ public class Classify {
 	 * @param url
      * @return String that will be returned as a text/plain response.
      */
-	@Path("togglecpu")
+	@Path("ping")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String toggleHighCPU() {
-
-		
+		return "I'm here";
     }
-	
-	@Path("add_vm.php")
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String simulateActionAddVMVCloud(  ){
-		return "adaptation";
-	}
 	
 }

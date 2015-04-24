@@ -12,7 +12,7 @@
 
     <modules>
         <module>SSEFrontEndApp</module>
-        <module>SSETextProcessor</module>
+        <module>SSETextProcess</module>
         <module>SSEEnhancer</module>
     </modules>
 	
