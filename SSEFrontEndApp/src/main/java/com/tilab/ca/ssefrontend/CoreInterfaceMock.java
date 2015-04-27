@@ -1,0 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tilab.ca.ssefrontend;
+
+import static java.util.Arrays.asList;
+import java.util.List;
+
+/**
+ *
+ * @author riccardo
+ */
+public class CoreInterfaceMock implements CoreInterface{
+
+	@Override
+	public List<ClassifyOutput> classifyData(String text) {
+		return asList(new ClassifyOutput());
+	}
+	
+}

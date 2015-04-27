@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tilab.ca.ssefrontend.textprocessing;
+package com.tilab.ca.ssefrontend.ae;
 
 /**
- *
+ * Article Extractor abstract iterface.
+ * 
  * @author riccardo
  */
-public class TextProcessorBase implements TextProcessor{
-
-	@Override
-	public String process(String process) {
-		return process.trim();
-	}
-	
+public interface AE {
+	String extract(String url);
 }

@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tilab.ca.ssefrontend.textprocessing;
+package com.tilab.ca.ssefrontend;
+
+import java.util.List;
 
 /**
  *
  * @author riccardo
  */
-public class TextProcessorBase implements TextProcessor{
-
-	@Override
-	public String process(String process) {
-		return process.trim();
-	}
+public interface CoreInterface {
+	
+	List<ClassifyOutput> classifyData(String text);
 	
 }

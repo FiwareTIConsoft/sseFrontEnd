@@ -1,6 +1,8 @@
 package com.tilab.ca.ssefrontend.rest;
 
 import com.tilab.ca.ssefrontend.ClassifyService;
+import com.tilab.ca.ssefrontend.di.SSEDefaultBinding;
+import static com.tilab.ca.ssefrontend.di.SSEDefaultBinding.instance;
 import java.io.File;
 import static java.lang.String.valueOf;
 import java.util.Optional;
@@ -19,7 +21,6 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
  */
 @Path("classify")
 public class Classify {
-
 	
 	
     /**
@@ -29,7 +30,8 @@ public class Classify {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getMetrics( @FormDataParam("text") String inputText,
+    public String getMetrics( 
+			@FormDataParam("text") String inputText,
 //			@FormDataParam("file") File file, //TODO File not yet supported
 			@FormDataParam("url") String url,
 //			@FormDataParam("fileName") String fileName,
@@ -37,13 +39,12 @@ public class Classify {
 			@FormDataParam("lang") String lang,
 			@QueryParam("image_policy") @DefaultValue("BASIC") String imagePolicy ) {
 		
+		ClassifyService cs = instance(ClassifyService.class);
 		
-		return ClassifyService.classify( 
+		return cs.classify( 
 				ofNullable(url),
 				ofNullable(inputText),
-				ofNullable(imagePolicy)
-		);
-				
+				ofNullable(imagePolicy) );
     }
 	
 	/**
@@ -55,7 +56,7 @@ public class Classify {
 	@Path("ping")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String toggleHighCPU() {
+    public String ping() {
 		return "I'm here";
     }
 	
