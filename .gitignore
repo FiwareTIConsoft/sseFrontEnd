@@ -1,0 +1,20 @@
+/target/
+/.classpath
+/.project
+/.settings/
+nb-configuration.xml
+/OrchestratorBuilder/Utils/target/
+/OrchestratorBuilder/ConfigProvider/target/
+/OrchestratorBuilder/Scheduler/target/
+/OrchestratorBuilder/Core/target/
+/OrchestratorBuilder/MetricCollector/target/
+/OrchestratorBuilder/AdaptationVMW/target/
+/OrchestratorBuilder/StateProvider/target/
+/OrchestratorBuilder/Adaptation/target/
+/OrchestratorBuilder/AdaptationCW/target/
+/OrchestratorBuilder/Tests/target/
+/OrchestratorBuilder/Tests - Copy/target/
+/OrchestratorBuilder/OrchestratorWebApp/target/
+/OrchestratorBuilder/target/
+/OrchestratorBuilder/TimerTest/target/
+/OrchestratorBuilder/LogServerMock/target/
