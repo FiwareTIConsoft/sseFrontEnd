@@ -5,7 +5,9 @@
  */
 package com.tilab.ca.ssefrontend;
 
+import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import com.tilab.ca.ssefrontend.ae.AE;
+import com.tilab.ca.ssefrontend.enhancer.Enhancer;
 import com.tilab.ca.ssefrontend.textprocessing.TextProcessor;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,10 @@ public class ClassifyService {
 	@Inject
 	public CoreInterface coreInterface;
 	
-	public String classify(
+	@Inject
+	public Enhancer enhancer;
+	
+	public List<ClassifyOutput> classify(
 			Optional<String> url, 
 			Optional<String> inputText, 
 			Optional<String> imagePolicy) {
@@ -39,10 +44,11 @@ public class ClassifyService {
 		String processedText = textProcessor.process(text);
 		
 		// Core integration
-		List<ClassifyOutput> classifyOutput = coreInterface.classifyData(text);
+		List<ClassifyOutput> classifyOutput = coreInterface.classifyData(processedText);
 		
-		// 
-		return "";
+		// Enhance if needed
+		return imagePolicy.map( policy -> enhancer.enhance(classifyOutput,policy) )
+						  .orElse( classifyOutput );
 	}
 	
 }

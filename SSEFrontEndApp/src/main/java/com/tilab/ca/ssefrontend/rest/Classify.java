@@ -1,10 +1,12 @@
 package com.tilab.ca.ssefrontend.rest;
 
+import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import com.tilab.ca.ssefrontend.ClassifyService;
-import com.tilab.ca.ssefrontend.di.SSEDefaultBinding;
-import static com.tilab.ca.ssefrontend.di.SSEDefaultBinding.instance;
+import com.tilab.ca.ssefrontend.di.SSEInjector;
+import static com.tilab.ca.ssefrontend.di.SSEInjector.instance;
 import java.io.File;
 import static java.lang.String.valueOf;
+import java.util.List;
 import java.util.Optional;
 import static java.util.Optional.ofNullable;
 import javax.ws.rs.Consumes;
@@ -26,11 +28,18 @@ public class Classify {
     /**
      * Method for the main classify interface.
 	 * 
+	 * @param inputText
+	 * @param url
+	 * @param numTopics
+	 * @param lang
+	 * @param imagePolicy
+	 * 
+	 * @return A JSON Array representing the classify output
      */
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getMetrics( 
+    public List<ClassifyOutput> getMetrics( 
 			@FormDataParam("text") String inputText,
 //			@FormDataParam("file") File file, //TODO File not yet supported
 			@FormDataParam("url") String url,

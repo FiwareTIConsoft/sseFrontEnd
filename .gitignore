@@ -1,4 +1,5 @@
-/target/
+target
+target/**
 /.classpath
 /.project
 /.settings/
@@ -18,3 +19,6 @@ nb-configuration.xml
 /OrchestratorBuilder/target/
 /OrchestratorBuilder/TimerTest/target/
 /OrchestratorBuilder/LogServerMock/target/
+/SSEUtils/target/
+/SSEEnhancer/target/
+/SSETextProcess/target/

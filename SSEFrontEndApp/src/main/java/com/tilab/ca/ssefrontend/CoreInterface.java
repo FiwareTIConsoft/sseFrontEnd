@@ -5,6 +5,7 @@
  */
 package com.tilab.ca.ssefrontend;
 
+import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import java.util.List;
 
 /**
