@@ -20,8 +20,8 @@ import org.aeonbits.owner.Reloadable;
 // Will use ASYNC reload type and will check every 15 seconds.
 @HotReload(value = 15, type = HotReloadType.ASYNC)
 @LoadPolicy(LoadType.MERGE)
-@Sources({"file:./server.properties"})
-public interface SSEConfig extends Config, Reloadable {
+@Sources({"file:C:\\Tilab\\TMF\\conf\\server.properties"})
+public interface SSEConfigMock extends Config, Reloadable {
 
     @Key("rest.service.url")
     @DefaultValue("http://127.0.0.1:8888/sse/")

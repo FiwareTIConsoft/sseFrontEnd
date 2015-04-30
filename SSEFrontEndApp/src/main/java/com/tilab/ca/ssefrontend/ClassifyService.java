@@ -30,21 +30,21 @@ public class ClassifyService {
 	
 	@Inject
 	public Enhancer enhancer;
-	
+ 
 	public List<ClassifyOutput> classify(
 			Optional<String> url, 
 			Optional<String> inputText, 
 			Optional<String> imagePolicy) {
 		
-		// Retrieve the text from URL or directly from param
+                // Retrieve the text from URL or directly from param
 		String text = url.map( articleExtractor::extract ).orElse(
 				inputText.orElseThrow( ()-> new IllegalArgumentException("No input text retrieved") ));
 		
 		// Pre process text
-		String processedText = textProcessor.process(text);
+                String processedText = textProcessor.process(text);
 		
 		// Core integration
-		List<ClassifyOutput> classifyOutput = coreInterface.classifyData(processedText);
+                List<ClassifyOutput> classifyOutput = coreInterface.classifyData(processedText);
 		
 		// Enhance if needed
 		return imagePolicy.map( policy -> enhancer.enhance(classifyOutput,policy) )
