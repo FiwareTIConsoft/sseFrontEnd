@@ -6,11 +6,15 @@
 package com.tilab.ca.ssefrontend;
 
 import com.tilab.ca.ssefrontend.config.SSEConfigMock;
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import static java.util.Optional.ofNullable;
 import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 import org.aeonbits.owner.ConfigCache;
@@ -33,6 +37,11 @@ public class ConfigTest extends TestCase {
     int aeTimeout = 45;
     int cacheTTL = 900;
 
+ 
+
+    //@Rule
+    //public TemporaryFolder testFolder = new TemporaryFolder();
+
     public ConfigTest(String testName) {
         super(testName);
     }
@@ -47,6 +56,78 @@ public class ConfigTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    /**
+     * Test of testHotReloadProperties method, of class SSEConfiguration.
+     *
+     * @throws java.lang.RuntimeException
+     */
+    @Before
+    public void testHotReloadProperties() throws RuntimeException, InterruptedException {
+
+        System.out.println("Enter testHotReloadProperties");
+
+        Properties prop = new Properties();
+        OutputStream output = null;
+        File tempFile = null;
+        URL url = null;
+
+        try {
+
+             //tempFile = testFolder.newFile("server.properties");
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            url = ofNullable(classLoader.getResource("com/tilab/ca/ssefrontend/config/test/server.properties")).orElseThrow(RuntimeException::new);
+            
+            tempFile = new File(url.toURI().getPath());
+            output = new FileOutputStream(tempFile);
+            // set the properties value
+            prop.setProperty("rest.service.url", newServiceUrl);
+            prop.setProperty("core.url", newCoreUrl);
+            prop.setProperty("core.timeout", Integer.toString(coreTimeout));
+            prop.setProperty("ae.url", newAeUrl);
+            prop.setProperty("ae.timeout", Integer.toString(aeTimeout));
+            prop.setProperty("cache.TTL", Integer.toString(cacheTTL));
+            // save properties to project root folder
+            prop.store(output, "server.properties");
+
+        } catch (URISyntaxException | IOException ex) {
+            System.out.println("Error when reading server.properties file ");
+            throw new RuntimeException("Error occurred when reading server.properties file " + ex.getMessage());
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    System.out.println("Error occurred when writing server.properties file");
+                    throw new RuntimeException("Error occurred when writing server.properties file " + e.getMessage());
+                }
+            }
+        }
+
+        sseConfigFromCache.addReloadListener(new ReloadListener() {
+            public void reloadPerformed(ReloadEvent event) {
+                System.out.print("Reload intercepted at " + new Date());
+                assertTrue(true);
+            }
+        });
+
+        System.out.println("The program is running. ");
+        String updatedServiceUrl = null;
+        String updatedCoreUrl = null;
+        String updatedAeUrl = null;
+        Thread.sleep(16000);
+        updatedServiceUrl = sseConfigFromCache.serviceUrl();
+        System.out.println("updatedServiceUrl is: " + updatedServiceUrl);
+        updatedCoreUrl = sseConfigFromCache.coreUrl();
+        System.out.println("updatedCoreUrl is: " + updatedCoreUrl);
+        updatedAeUrl = sseConfigFromCache.aeUrl();
+        System.out.println("updatedAeUrl is: " + updatedAeUrl);
+
+        assertEquals(updatedServiceUrl, newServiceUrl);
+        assertEquals(updatedCoreUrl, newCoreUrl);
+        assertEquals(updatedAeUrl, newAeUrl);
+
     }
 
     /**
@@ -142,69 +223,6 @@ public class ConfigTest extends TestCase {
 
         System.out.println("aeeTimeout result=" + result);
         assertEquals(aeTimeout, result);
-
-    }
-
-    /**
-     * Test of testHotReloadProperties method, of class SSEConfiguration.
-     */
-    @Before
-    public void testHotReloadProperties() throws InterruptedException {
-
-        System.out.println("Enter testHotReloadProperties");
-
-        Properties prop = new Properties();
-        OutputStream output = null;
-
-        try {
-
-            output = new FileOutputStream("C:\\Tilab\\TMF\\conf\\server.properties");
-            // set the properties value
-            prop.setProperty("rest.service.url", newServiceUrl);
-            prop.setProperty("core.url", newCoreUrl);
-            prop.setProperty("core.timeout", Integer.toString(coreTimeout));
-            prop.setProperty("ae.url", newAeUrl);
-            prop.setProperty("ae.timeout", Integer.toString(aeTimeout));
-            prop.setProperty("cache.TTL", Integer.toString(cacheTTL));
-            // save properties to project root folder
-            prop.store(output, "C:\\Tilab\\TMF\\conf\\server.properties");
-
-        } catch (IOException io) {
-            io.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
-        sseConfigFromCache.addReloadListener(new ReloadListener() {
-            public void reloadPerformed(ReloadEvent event) {
-                System.out.print("Reload intercepted at " + new Date());
-                assertTrue(true);
-            }
-        });
-
-        System.out.println("The program is running. ");
-
-        String updatedServiceUrl = null;
-        String updatedCoreUrl = null;
-        String updatedAeUrl = null;
-        Thread.sleep(16000);
-        updatedServiceUrl = sseConfigFromCache.serviceUrl();
-        System.out.println("updatedServiceUrl is: " + updatedServiceUrl);
-        updatedCoreUrl = sseConfigFromCache.coreUrl();
-        System.out.println("updatedCoreUrl is: " + updatedCoreUrl);
-        updatedAeUrl = sseConfigFromCache.aeUrl();
-        System.out.println("updatedAeUrl is: " + updatedAeUrl);
-
-        assertEquals(updatedServiceUrl, newServiceUrl);
-        assertEquals(updatedCoreUrl, newCoreUrl);
-        assertEquals(updatedAeUrl, newAeUrl);
 
     }
 
