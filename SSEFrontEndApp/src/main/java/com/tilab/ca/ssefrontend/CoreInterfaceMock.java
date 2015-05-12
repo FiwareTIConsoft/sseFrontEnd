@@ -16,7 +16,7 @@ import java.util.List;
 public class CoreInterfaceMock implements CoreInterface{
 
 	@Override
-	public List<ClassifyOutput> classifyData(String text) {
+	public List<ClassifyOutput> classifyData(String text, String lang, int numTopics) {
 		return asList(new ClassifyOutput());
 	}
 	

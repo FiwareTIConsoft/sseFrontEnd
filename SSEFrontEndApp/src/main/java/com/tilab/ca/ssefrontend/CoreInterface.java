@@ -14,6 +14,13 @@ import java.util.List;
  */
 public interface CoreInterface {
 	
-	List<ClassifyOutput> classifyData(String text);
+    /**
+     *
+     * @param text
+     * @param lang
+     * @param numTopics
+     * @return
+     */
+    List<ClassifyOutput> classifyData(String text, String lang, int numTopics);
 	
 }

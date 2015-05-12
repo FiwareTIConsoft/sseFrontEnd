@@ -2,12 +2,8 @@ package com.tilab.ca.ssefrontend.rest;
 
 import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import com.tilab.ca.ssefrontend.ClassifyService;
-import com.tilab.ca.ssefrontend.di.SSEInjector;
 import static com.tilab.ca.ssefrontend.di.SSEInjector.instance;
-import java.io.File;
-import static java.lang.String.valueOf;
 import java.util.List;
-import java.util.Optional;
 import static java.util.Optional.ofNullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -23,50 +19,49 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
  */
 @Path("classify")
 public class Classify {
-	
-	
+
     /**
      * Method for the main classify interface.
-	 * 
-	 * @param inputText
-	 * @param url
-	 * @param numTopics
-	 * @param lang
-	 * @param imagePolicy
-	 * 
-	 * @return A JSON Array representing the classify output
+     *
+     * @param inputText
+     * @param url
+     * @param numTopics
+     * @param lang
+     * @param imagePolicy
+     *
+     * @return A JSON Array representing the classify output
      */
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_JSON)
-    public List<ClassifyOutput> getMetrics( 
-			@FormDataParam("text") String inputText,
-//			@FormDataParam("file") File file, //TODO File not yet supported
-			@FormDataParam("url") String url,
-//			@FormDataParam("fileName") String fileName,
-			@FormDataParam("numTopics") int numTopics,
-			@FormDataParam("lang") String lang,
-			@QueryParam("image_policy") @DefaultValue("BASIC") String imagePolicy ) {
-		
-		ClassifyService cs = instance(ClassifyService.class);
-		
-		return cs.classify( 
-				ofNullable(url),
-				ofNullable(inputText),
-				ofNullable(imagePolicy) );
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ClassifyOutput> getMetrics(
+            @FormDataParam("text") String inputText,
+            //			@FormDataParam("file") File file, //TODO File not yet supported
+            @FormDataParam("url") String url,
+            //			@FormDataParam("fileName") String fileName,
+            @FormDataParam("numTopics") int numTopics,
+            @QueryParam("image_policy") @DefaultValue("BASIC") String imagePolicy) {
+
+        ClassifyService cs = instance(ClassifyService.class);
+
+        return cs.classify(
+                ofNullable(url),
+                ofNullable(inputText),
+                ofNullable(numTopics),
+                ofNullable(imagePolicy));
     }
-	
-	/**
+
+    /**
      * Stub method
      *
-	 * @param url
+     * @param url
      * @return String that will be returned as a text/plain response.
      */
-	@Path("ping")
+    @Path("ping")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-		return "I'm here";
+        return "I'm here";
     }
-	
+
 }
