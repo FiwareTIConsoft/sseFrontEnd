@@ -26,7 +26,6 @@ public class Classify {
      * @param inputText
      * @param url
      * @param numTopics
-     * @param lang
      * @param imagePolicy
      *
      * @return A JSON Array representing the classify output
@@ -34,12 +33,12 @@ public class Classify {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ClassifyOutput> getMetrics(
+    public List<ClassifyOutput> classify(
             @FormDataParam("text") String inputText,
             //			@FormDataParam("file") File file, //TODO File not yet supported
             @FormDataParam("url") String url,
             //			@FormDataParam("fileName") String fileName,
-            @FormDataParam("numTopics") int numTopics,
+            @FormDataParam("numTopics") Integer numTopics,
             @QueryParam("image_policy") @DefaultValue("BASIC") String imagePolicy) {
 
         ClassifyService cs = instance(ClassifyService.class);

@@ -13,7 +13,7 @@
         <module>SSETextProcess</module>
         <module>SSEEnhancer</module>
     	<module>SSEUtils</module>
-	</modules>
+    </modules>
 	
     <build>
         <pluginManagement>

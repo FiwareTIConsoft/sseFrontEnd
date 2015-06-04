@@ -3,23 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tilab.ca.ssefrontend;
+package com.tilab.ca.ssefrontend.enhancer;
 
 import com.tilab.ca.ssefrontend.models.ClassifyOutput;
-import com.tilab.ca.ssefrontend.models.ClassifyRequest;
 import java.util.List;
 
 /**
  *
  * @author riccardo
  */
-public interface CoreInterface {
-	
-    /**
-     *
-     * @param classifyRequest
-     * @return
-     */
-    List<ClassifyOutput> classifyData(ClassifyRequest classifyRequest);
+public class EnhancerImpl implements Enhancer{
+
+	@Override
+	public List<ClassifyOutput> enhance(List<ClassifyOutput> classified, String policy) {
+		
+            //TODO
+            return classified;
+	}
 	
 }

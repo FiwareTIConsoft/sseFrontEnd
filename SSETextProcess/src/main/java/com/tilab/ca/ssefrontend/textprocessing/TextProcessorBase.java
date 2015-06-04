@@ -13,7 +13,7 @@ public class TextProcessorBase implements TextProcessor{
 
 	@Override
 	public String process(String process) {
-		return process.trim();
+		return process.replaceAll("[\\+\\-\\|!\\(\\)\\{\\}\\[\\]\\^~\\*\\?\"\\\\:&]", " ").trim();
 	}
 	
 }

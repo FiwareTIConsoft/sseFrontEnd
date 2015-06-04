@@ -40,7 +40,7 @@ public class LangDetectTest extends TestCase {
      */
     @Before
     public void testInitLangDetect() {
-        LangDetectUtils.init();
+        LangDetectUtils.initMock();
     }
 
     /**

@@ -16,6 +16,9 @@
  */
 package com.tilab.ca.ssefrontend.models;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ClassifyOutput {
 	private String uri, label, title, score, mergedTypes, image, wikilink;
 
