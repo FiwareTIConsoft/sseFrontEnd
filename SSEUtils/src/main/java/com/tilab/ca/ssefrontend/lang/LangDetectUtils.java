@@ -17,7 +17,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
+
 
 /**
  * author Andrea
@@ -81,8 +82,7 @@ public class LangDetectUtils {
             detector = DetectorFactory.create();
             detector.append(text);
             return detector.detect();
-            //LOG.log(Level.INFO, "Detected lang = {0}", lang);
-
+ 
         }, "en");
     }
 

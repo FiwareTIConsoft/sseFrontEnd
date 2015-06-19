@@ -8,10 +8,9 @@ package com.tilab.ca.ssefrontend.ae;
 import com.tilab.ca.ssefrontend.config.SSEConfig;
 import javax.ws.rs.client.ClientBuilder;
 import org.aeonbits.owner.ConfigCache;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +24,7 @@ public class AEImpl implements AE {
     @Override
     public String extract(String url) {
 
-        LOG.log(Level.INFO, "[extract] - BEGIN invoking SSE article extractor");
+        LOG.info( "[extract] - invoking SSE article extractor");
         configuration = new ClientConfig();
         configuration.property(ClientProperties.CONNECT_TIMEOUT, ConfigCache.getOrCreate(SSEConfig.class).aeTimeout());
         configuration.property(ClientProperties.READ_TIMEOUT, ConfigCache.getOrCreate(SSEConfig.class).aeTimeout());

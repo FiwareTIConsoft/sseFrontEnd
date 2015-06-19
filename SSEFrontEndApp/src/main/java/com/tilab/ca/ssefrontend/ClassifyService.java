@@ -15,8 +15,7 @@ import static com.tilab.ca.ssefrontend.util.SSEUtils.unchecked;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -44,22 +43,23 @@ public class ClassifyService {
             Optional<Integer> numTopics,
             Optional<String> imagePolicy) {
 
+        LOG.info( "[classify] - BEGIN classify");
         return unchecked(() -> {
 
             // Retrieve the text from URL or directly from param
             String text = url.map(articleExtractor::extract).orElseGet(
                     () -> inputText.orElseThrow((() -> new IllegalArgumentException("No input text retrieved"))));
-            LOG.log(Level.INFO, "text = {0}", text);
+            LOG.info("text = "+ text);
 
             // detect lang (it or en)
             String lang = LangDetectUtils.detect(text);
 
             // Pre process text
             String processedText = textProcessor.process(text);
-            LOG.log(Level.INFO, "processedText = {0}", processedText);
+            LOG.info("processedText = "+ processedText);
 
             int nTopics = numTopics.orElse(7);
-            LOG.log(Level.INFO, "nTopics = {0}", nTopics);
+            LOG.info("nTopics = "+ nTopics);
 
             // Core integration
             ClassifyRequest cr = new ClassifyRequest();
@@ -68,6 +68,7 @@ public class ClassifyService {
             cr.setText(processedText);
             List<ClassifyOutput> classifyOutput = coreInterface.classifyData(cr);
             
+            LOG.info( "[classify] - EXIT classify");
             return classifyOutput;
 
             // Enhance if needed

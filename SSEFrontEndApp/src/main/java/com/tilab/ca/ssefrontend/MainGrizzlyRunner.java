@@ -1,16 +1,9 @@
 package com.tilab.ca.ssefrontend;
 
-import com.tilab.ca.ssefrontend.ae.AE;
-import com.tilab.ca.ssefrontend.ae.AEImpl;
-import com.tilab.ca.ssefrontend.ae.AEMock;
 import com.tilab.ca.ssefrontend.config.SSEConfig;
 import com.tilab.ca.ssefrontend.di.DefaultModule;
 import com.tilab.ca.ssefrontend.di.SSEInjector;
-import com.tilab.ca.ssefrontend.enhancer.Enhancer;
-import com.tilab.ca.ssefrontend.enhancer.EnhancerImpl;
 import com.tilab.ca.ssefrontend.lang.LangDetectUtils;
-import com.tilab.ca.ssefrontend.textprocessing.TextProcessor;
-import com.tilab.ca.ssefrontend.textprocessing.TextProcessorBase;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -18,10 +11,10 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.aeonbits.owner.ConfigCache;
 import org.aeonbits.owner.event.ReloadEvent;
+import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.accesslog.AccessLogBuilder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -58,7 +51,7 @@ public class MainGrizzlyRunner {
 
         sseConfigFromCache = ConfigCache.getOrCreate(SSEConfig.class);
         sseConfigFromCache.addReloadListener((ReloadEvent event) -> {
-            LOG.log(Level.INFO, "Reload intercepted at {0}", new Date());
+            LOG.info("Reload intercepted at "+ new Date());
         });
 
         LangDetectUtils.init();
@@ -68,7 +61,7 @@ public class MainGrizzlyRunner {
         try {
             httpServer.start();
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, "could not start Grizzly server", e);
+            LOG.error( "could not start Grizzly server", e);
             throw new RuntimeException(e);
         }
 
@@ -90,7 +83,7 @@ public class MainGrizzlyRunner {
         
         final HttpServer server = startServer();
         
-        LOG.log(Level.INFO, "Jersey app started with WADL available at {0}", sseConfigFromCache.serviceUrl());
+        LOG.info("Jersey app started with WADL available at "+ sseConfigFromCache.serviceUrl());
         Thread.currentThread().suspend(); //XXX verify the best option to suspend the current thread
 
         server.stop();

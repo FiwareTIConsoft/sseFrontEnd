@@ -9,14 +9,13 @@ import com.tilab.ca.ssefrontend.config.SSEConfig;
 import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import com.tilab.ca.ssefrontend.models.ClassifyRequest;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.aeonbits.owner.ConfigCache;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
@@ -35,7 +34,7 @@ public class CoreInterfaceImpl implements CoreInterface {
     @Override
     public List<ClassifyOutput> classifyData(ClassifyRequest classifyRequest) {
 
-        LOG.log(Level.INFO, "[classifyData] - BEGIN invoking SSE core");
+        LOG.info( "[classifyData] - BEGIN invoking SSE core");
         configuration = new ClientConfig();
         configuration.property(ClientProperties.CONNECT_TIMEOUT, ConfigCache.getOrCreate(SSEConfig.class).coreTimeout());
         configuration.property(ClientProperties.READ_TIMEOUT, ConfigCache.getOrCreate(SSEConfig.class).coreTimeout());
@@ -52,6 +51,7 @@ public class CoreInterfaceImpl implements CoreInterface {
                 .post(entity, Response.class);
 
         List<ClassifyOutput> outputs = resp.readEntity(new GenericType<List<ClassifyOutput>>() {});
+        LOG.info( "[classifyData] - EXIT invoking SSE core");
         return outputs;
 
     }
