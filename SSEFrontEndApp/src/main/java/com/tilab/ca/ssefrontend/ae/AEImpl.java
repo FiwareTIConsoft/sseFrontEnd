@@ -6,6 +6,7 @@
 package com.tilab.ca.ssefrontend.ae;
 
 import com.tilab.ca.ssefrontend.config.SSEConfig;
+import com.tilab.ca.ssefrontend.util.SSEUtils;
 import javax.ws.rs.client.ClientBuilder;
 import org.aeonbits.owner.ConfigCache;
 import org.apache.log4j.Logger;
@@ -33,7 +34,9 @@ public class AEImpl implements AE {
                 .aeUrl())
                 .path("extraction")
                 .queryParam("url", url)
-                .request().get(String.class);
+                .request()
+                .headers(SSEUtils.withLogServerHeaders())
+                .get(String.class);
     }
 
 }
