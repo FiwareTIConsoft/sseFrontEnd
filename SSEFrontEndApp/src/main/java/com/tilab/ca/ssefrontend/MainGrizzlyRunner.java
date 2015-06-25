@@ -122,7 +122,7 @@ public class MainGrizzlyRunner {
          AccessLogProbe alp = new AccessLogProbe(appender, format, statusThreshold);
          ServerConfiguration sc = httpServer.getServerConfiguration();
          sc.getMonitoringConfig().getWebServerConfig().addProbes(alp);*/
-        final AccessLogBuilder builder = new AccessLogBuilder("./sse_frontend_access.log");
+        final AccessLogBuilder builder = new AccessLogBuilder(System.getProperty("frontend.path")+"sse_frontend_access.log");
         builder.instrument(httpServer.getServerConfiguration());
 
     }

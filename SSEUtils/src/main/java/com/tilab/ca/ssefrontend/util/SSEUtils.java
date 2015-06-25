@@ -16,9 +16,6 @@
  */
 package com.tilab.ca.ssefrontend.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.core.MultivaluedHashMap;
 import org.apache.log4j.Logger;
 
 
