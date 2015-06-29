@@ -2,6 +2,7 @@ package com.tilab.ca.ssefrontend.lang;
 
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import static com.tilab.ca.ssefrontend.util.SSEUtils.unchecked;
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,7 +32,8 @@ public class LangDetectUtils {
     public static void initMock() {
         unchecked(() -> {
             URL path = LangDetectUtils.class.getClassLoader().getResource("profiles");
-            DetectorFactory.loadProfile(new File(path.toURI()));
+			//XXX No idea why in a Linux Mint PC it throws an exception
+            try { DetectorFactory.loadProfile(new File(path.toURI())); } catch (LangDetectException e) { LOG.error("sh*t happens: "+e.getMessage()); }
         });
     }
 

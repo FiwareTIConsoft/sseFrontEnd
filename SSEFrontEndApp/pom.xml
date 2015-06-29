@@ -41,6 +41,13 @@
     </dependencyManagement>
 
     <dependencies>
+		
+		<dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner-java8</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+		
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>

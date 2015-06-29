@@ -8,6 +8,7 @@ package com.tilab.ca.ssefrontend;
 import com.tilab.ca.ssefrontend.lang.LangDetectUtils;
 import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -38,8 +39,8 @@ public class LangDetectTest extends TestCase {
      * Test lang detection initialization
      *
      */
-    @Before
-    public void testInitLangDetect() {
+    @BeforeClass
+    public static void testInitLangDetect() {
         LangDetectUtils.initMock();
     }
 
