@@ -18,6 +18,7 @@ package com.tilab.ca.ssefrontend.util;
 
 import org.apache.log4j.Logger;
 
+
 public class SSEUtils {
 
     static Logger LOG = Logger.getLogger(SSEUtils.class.getName());

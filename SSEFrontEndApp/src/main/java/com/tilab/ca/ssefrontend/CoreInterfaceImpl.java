@@ -8,6 +8,7 @@ package com.tilab.ca.ssefrontend;
 import com.tilab.ca.ssefrontend.config.SSEConfig;
 import com.tilab.ca.ssefrontend.models.ClassifyOutput;
 import com.tilab.ca.ssefrontend.models.ClassifyRequest;
+import com.tilab.ca.ssefrontend.util.SSEUtils;
 import java.util.List;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -43,11 +44,13 @@ public class CoreInterfaceImpl implements CoreInterface {
                 classifyRequest
         );
         
-        Response resp = ClientBuilder.newClient(configuration)
+        Response resp;
+        resp = ClientBuilder.newClient(configuration)
                 .target(ConfigCache.getOrCreate(SSEConfig.class)
-                .coreUrl())
+                        .coreUrl())
                 .path("classify")
                 .request(MediaType.APPLICATION_JSON)
+                .headers(SSEUtils.withLogServerHeaders())
                 .post(entity, Response.class);
 
         List<ClassifyOutput> outputs = resp.readEntity(new GenericType<List<ClassifyOutput>>() {});

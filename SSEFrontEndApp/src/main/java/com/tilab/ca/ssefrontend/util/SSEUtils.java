@@ -17,6 +17,9 @@
 package com.tilab.ca.ssefrontend.util;
 
 import org.apache.log4j.Logger;
+import com.tilab.ca.platform.logintegration.CC;
+import com.tilab.ca.platform.logintegration.util.Constants;
+import javax.ws.rs.core.MultivaluedHashMap;
 
 public class SSEUtils {
 
@@ -89,5 +92,23 @@ public class SSEUtils {
 
     public static boolean hasNoContent(String string) {
         return !hasContent(string);
+    }
+
+    public static MultivaluedHashMap withLogServerHeaders() {
+
+        MultivaluedHashMap<String, Object> headers = new MultivaluedHashMap<>();
+        if (CC.getServerRequestID() != null) {
+            headers.add(Constants.SERVER_REQUEST_ID, CC.getServerRequestID());
+        }
+        if (CC.getClientRequestID() != null) {
+            headers.add(Constants.CLIENT_REQUEST_ID, CC.getClientRequestID());
+        }
+        if (CC.getUser() != null) {
+            headers.add(Constants.USER, CC.getUser());
+        }
+        if (CC.getApp() != null) {
+            headers.add(Constants.APP, CC.getApp());
+        }
+        return headers;
     }
 }

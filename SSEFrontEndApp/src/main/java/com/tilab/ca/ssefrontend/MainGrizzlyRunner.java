@@ -1,25 +1,29 @@
 package com.tilab.ca.ssefrontend;
 
+import com.tilab.ca.platform.logintegration.filter.LogFilter;
 import com.tilab.ca.ssefrontend.config.SSEConfig;
 import com.tilab.ca.ssefrontend.di.DefaultModule;
 import com.tilab.ca.ssefrontend.di.SSEInjector;
 import com.tilab.ca.ssefrontend.lang.LangDetectUtils;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
+import javax.servlet.DispatcherType;
 
 import org.aeonbits.owner.ConfigCache;
-import org.aeonbits.owner.event.ReloadEvent;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.http.server.accesslog.AccessLogBuilder;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.grizzly.servlet.FilterRegistration;
+import org.glassfish.grizzly.servlet.ServletRegistration;
+import org.glassfish.grizzly.servlet.WebappContext;
+
+
 
 /**
  * Main class.
@@ -39,26 +43,39 @@ public class MainGrizzlyRunner {
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
+        
         // create a resource config that scans for JAX-RS resources and providers
-        // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("com.tilab.ca.ssefrontend.rest");
+        //final ResourceConfig rc = new ResourceConfig().packages("com.tilab.ca.ssefrontend.rest");
 
         // to enable JSON support
-        rc.register(JacksonFeature.class);
+        //rc.register(JacksonFeature.class);
 
         // to enable Multipart support
-        rc.register(MultiPartFeature.class);
+        //rc.register(MultiPartFeature.class);
+        
+        // Register LogFilter 
+        WebappContext webappContext = new WebappContext("grizzly web context", "/ssefrontend");
 
+        FilterRegistration testFilterReg = webappContext.addFilter("LogFilter", LogFilter.class);
+        testFilterReg.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), "/*");
+
+        ServletRegistration servletRegistration = webappContext.addServlet("Jersey", org.glassfish.jersey.servlet.ServletContainer.class);
+        servletRegistration.addMapping("/*");
+        servletRegistration.setInitParameter("jersey.config.server.provider.packages", "com.tilab.ca.ssefrontend.rest");
+        servletRegistration.setInitParameter("jersey.config.server.provider.classnames", "org.glassfish.jersey.jackson.JacksonFeature,org.glassfish.jersey.media.multipart.MultiPartFeature");
+        
         SSEInjector.setModule(new DefaultModule());
 
         sseConfigFromCache = ConfigCache.getOrCreate(SSEConfig.class);
-        sseConfigFromCache.addReloadListener((ReloadEvent event) -> {
+        sseConfigFromCache.addReloadListener( event -> {
             LOG.info("Reload intercepted at " + new Date());
         });
 
         LangDetectUtils.init();
 
-        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(sseConfigFromCache.serviceUrl()), rc, false, null, false);
+        //HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(sseConfigFromCache.serviceUrl()), rc, false, null, false);
+        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(sseConfigFromCache.serviceUrl()), false);
+
         enableAccessLog(httpServer);
 
         // register shutdown hook
@@ -68,6 +85,7 @@ public class MainGrizzlyRunner {
         }, "shutdownHook"));
 
         try {
+            webappContext.deploy(httpServer);
             httpServer.start();
         } catch (Exception e) {
             LOG.error("could not start Grizzly server", e);
@@ -104,7 +122,7 @@ public class MainGrizzlyRunner {
          AccessLogProbe alp = new AccessLogProbe(appender, format, statusThreshold);
          ServerConfiguration sc = httpServer.getServerConfiguration();
          sc.getMonitoringConfig().getWebServerConfig().addProbes(alp);*/
-        final AccessLogBuilder builder = new AccessLogBuilder("./sse_frontend_access.log");
+        final AccessLogBuilder builder = new AccessLogBuilder(System.getProperty("frontend.path")+"sse_frontend_access.log");
         builder.instrument(httpServer.getServerConfiguration());
 
     }

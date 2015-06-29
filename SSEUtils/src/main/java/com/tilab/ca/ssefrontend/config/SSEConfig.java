@@ -20,7 +20,7 @@ import org.aeonbits.owner.Reloadable;
 // Will use ASYNC reload type and will check every 15 seconds.
 @HotReload(value = 15, type = HotReloadType.ASYNC)
 @LoadPolicy(LoadType.MERGE)
-@Sources({"file:./server.properties"})
+@Sources({"file:${frontend.path}server.properties"})
 public interface SSEConfig extends Config, Reloadable {
 
     @Key("rest.service.url")

@@ -67,7 +67,31 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-all</artifactId>
+            <version>2.3.16</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <version>2.17</version>
+        </dependency>
 
+        
+        <dependency>
+            <groupId>com.tilab.ca</groupId>
+            <artifactId>LogIntegration</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.tilab.ca.platform</groupId>
+            <artifactId>LogExecTimeFilter</artifactId>
+            <version>1.0.2</version>
+        </dependency>-->
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
