@@ -177,7 +177,7 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-                                        <minimizeJar>true</minimizeJar>
+                                        <minimizeJar>false</minimizeJar>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<finalName>${project.name}</finalName>
 					<filters>
