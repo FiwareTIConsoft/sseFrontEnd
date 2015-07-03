@@ -23,8 +23,6 @@ import org.glassfish.grizzly.servlet.FilterRegistration;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 
-
-
 /**
  * Main class.
  *
@@ -43,16 +41,13 @@ public class MainGrizzlyRunner {
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
-        
+
         // create a resource config that scans for JAX-RS resources and providers
         //final ResourceConfig rc = new ResourceConfig().packages("com.tilab.ca.ssefrontend.rest");
-
         // to enable JSON support
         //rc.register(JacksonFeature.class);
-
         // to enable Multipart support
         //rc.register(MultiPartFeature.class);
-        
         // Register LogFilter 
         WebappContext webappContext = new WebappContext("grizzly web context", "/ssefrontend");
 
@@ -63,11 +58,11 @@ public class MainGrizzlyRunner {
         servletRegistration.addMapping("/*");
         servletRegistration.setInitParameter("jersey.config.server.provider.packages", "com.tilab.ca.ssefrontend.rest");
         servletRegistration.setInitParameter("jersey.config.server.provider.classnames", "org.glassfish.jersey.jackson.JacksonFeature,org.glassfish.jersey.media.multipart.MultiPartFeature");
-        
+
         SSEInjector.setModule(new DefaultModule());
 
         sseConfigFromCache = ConfigCache.getOrCreate(SSEConfig.class);
-        sseConfigFromCache.addReloadListener( event -> {
+        sseConfigFromCache.addReloadListener(event -> {
             LOG.info("Reload intercepted at " + new Date());
         });
 
@@ -122,8 +117,11 @@ public class MainGrizzlyRunner {
          AccessLogProbe alp = new AccessLogProbe(appender, format, statusThreshold);
          ServerConfiguration sc = httpServer.getServerConfiguration();
          sc.getMonitoringConfig().getWebServerConfig().addProbes(alp);*/
-        final AccessLogBuilder builder = new AccessLogBuilder(System.getProperty("frontend.path")+"sse_frontend_access.log");
-        builder.instrument(httpServer.getServerConfiguration());
+        String frontendPath = System.getProperty("frontend.path");
+        if (frontendPath != null) {
+            final AccessLogBuilder builder = new AccessLogBuilder(frontendPath + "sse_frontend_access.log");
+            builder.instrument(httpServer.getServerConfiguration());
+        }
 
     }
 
