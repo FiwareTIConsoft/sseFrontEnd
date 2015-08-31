@@ -46,7 +46,7 @@ HTTP METHOD: GET
 
         url=http://www.repubblica.it/cronaca/2015/02/26/news/io_infermiere_vi_racconto_leutanasia_silenziosa_nei_nostri_ospedali-108205220/
 
-+ Response 200 (application/json)
++ Response 200 (text/plain)
     
         Repubblica TV
         “Io, infermiere vi racconto l’eutanasia silenziosa nei nostri ospedali”
