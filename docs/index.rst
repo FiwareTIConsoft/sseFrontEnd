@@ -64,3 +64,7 @@ HTTP METHOD: GET
         Non sarebbe complicato fare un primo passo: "C'è già adesso la possibilità di avere un tesserino che certifica la volontà di donare gli organi  -  ragiona Michele  -  perché non prevederne uno per il fine vita?". Domande senza
         una risposta, o forse sì, poco importa: "Prima il medico o un prete erano considerati i padroni della vita o della morte. Oggi non ci sono più tabù: il malato sa che ha dei diritti, compreso quello di gestire per sé anche l'ultimo passaggio".
   
+Installation and Administration Guide
+=====================================
+
+The project can be build with Maven 
